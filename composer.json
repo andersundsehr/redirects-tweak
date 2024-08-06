@@ -1,0 +1,21 @@
+{
+    "name": "andersundsehr/redirects-tweak",
+    "description": "Seperates redirects from the page cache and allows to delete redirects where the page was deleted",
+    "type": "typo3-cms-extension",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "typo3/cms-core": "^11.5 || ^12.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "AUS\\RedirectsTweak\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "redirects_tweak"
+        }
+    }
+}
