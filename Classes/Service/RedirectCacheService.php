@@ -17,6 +17,6 @@ class RedirectCacheService extends \TYPO3\CMS\Redirects\Service\RedirectCacheSer
     public function __construct(CacheManager $cacheManager = null)
     {
         $cacheManager = $cacheManager ?? GeneralUtility::makeInstance(CacheManager::class);
-        $this->cache = $cacheManager->getCache('andersundsehr-redirects-tweak');
+        $this->cache = $cacheManager->getCache('andersundsehr_redirects_tweak');
     }
 }
