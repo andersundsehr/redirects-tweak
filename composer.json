@@ -17,5 +17,8 @@
         "typo3/cms": {
             "extension-key": "redirects_tweak"
         }
+    },
+    "suggest" : {
+        "ext-apcu": "For better performance"
     }
 }
