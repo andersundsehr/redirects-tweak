@@ -6,5 +6,5 @@ by default the extension uses the APCu cache, this configuration can be easily a
 
 ```PHP
 // choose your favourite cache backend
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr-redirects-tweak']['backend'] = SimpleFileBackend
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak']['backend'] = SimpleFileBackend
 ```

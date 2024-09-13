@@ -13,7 +13,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][RedirectCacheService::class] = [
     'className' => \AUS\RedirectsTweak\Service\RedirectCacheService::class
 ];
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr-redirects-tweak'] = [
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak'] = [
     'frontend' => VariableFrontend::class,
     'backend' => ApcuBackend::class,
     'groups' => [
