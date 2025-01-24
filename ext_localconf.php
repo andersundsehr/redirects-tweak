@@ -13,14 +13,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][RedirectCacheService::class] = [
     'className' => \AUS\RedirectsTweak\Service\RedirectCacheService::class
 ];
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak'] = array_merge([
-        'frontend' => VariableFrontend::class,
-        'backend' => $backend,
-        'groups' => [
-            'pages',
-        ]
-    ],
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak'] ?? [],
-);
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak'] ??= [
+    'frontend' => VariableFrontend::class,
+    'backend' => ApcuBackend::class,
+    'groups' => [
+        'pages',
+    ]
+];
 
 TceMainHook::register();
