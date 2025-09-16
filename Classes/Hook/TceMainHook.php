@@ -15,18 +15,28 @@ class TceMainHook
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = static::class;
     }
 
+    /**
+     * @param array<mixed> $record
+     * @phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+     */
     public function processCmdmap_deleteAction(string $table, int|string $id, array $record, bool &$wasDeleted, DataHandler $dataHandler): void
     {
         if ($table !== 'sys_redirect') {
             return;
         }
+
         if (!is_int($id)) {
+            return;
+        }
+
+        $uid = $record['uid'];
+        if (!is_int($uid)) {
             return;
         }
 
         // if the redirect is on a deleted page, do not check permissions
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-        $page = $pageRepository->getPage_noCheck($record['uid']);
+        $page = $pageRepository->getPage_noCheck($uid);
         if ([] === $page) {
             $dataHandler->deleteEl($table, $id, true);
             $wasDeleted = true;
