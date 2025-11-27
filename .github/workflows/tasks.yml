@@ -13,9 +13,11 @@ jobs:
       fail-fast: false
       max-parallel: 3
       matrix:
-        php: [ '81', '82', '83', '84' ]
+        php: [ '81', '82', '83', '84', '85' ]
         typo3: [ '11', '12', '13' ]
         exclude:
+          - php: '85'
+            typo3: '11'
           - php: '84'
             typo3: '11'
           - php: '81'
