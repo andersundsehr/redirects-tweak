@@ -10,6 +10,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class TceMainHook
 {
+    /*
+     * Prevent infinite recursion
+     */
+    private static bool $isDeletingRedirectWithoutPermissionCheck = false;
+
     public static function register(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass'][] = static::class;
@@ -38,8 +43,17 @@ class TceMainHook
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $page = $pageRepository->getPage_noCheck($uid);
         if ([] === $page) {
-            $dataHandler->deleteEl($table, $id, true);
-            $wasDeleted = true;
+            if (self::$isDeletingRedirectWithoutPermissionCheck) {
+                return;
+            }
+
+            self::$isDeletingRedirectWithoutPermissionCheck = true;
+            try {
+                $dataHandler->deleteAction($table, $id, true);
+                $wasDeleted = true;
+            } finally {
+                self::$isDeletingRedirectWithoutPermissionCheck = false;
+            }
         }
     }
 }

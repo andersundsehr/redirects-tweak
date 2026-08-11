@@ -1,10 +1,14 @@
-This TYPO3 extension offers two functionalities.
-Firstly, an extra cache is configured so that redirects are no longer stored in the page cache.
-in addition, it is now possible to delete entries in the backend module of the redirects which are on deleted pages. the access rights on the storage page are not checked.
+# Redirects Tweak
 
-by default the extension uses the SimpleFile cache backend, this configuration can be easily adjusted in the caching framework:
+This TYPO3 extension provides:
 
-```PHP
-// choose your favourite cache backend
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak']['backend'] = SimpleFileBackend
+- A dedicated cache for redirects, keeping them separate from the page cache.
+  The default backend is `SimpleFileBackend`.
+- The ability to delete orphaned redirects whose related page has been deleted.
+  This deletion does not check permissions on the storage page.
+
+The redirect cache backend can be configured:
+```php
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['andersundsehr_redirects_tweak']['backend']
+    = \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
 ```
