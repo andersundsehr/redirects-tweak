@@ -37,7 +37,12 @@ jobs:
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
       # CI-only alias until TYPO3 accepts the security-fixed svg-sanitize ^1.0.
       - run: composer require "enshrined/svg-sanitize:1.0.0 as 0.22.99" --dev --no-update --sort-packages --no-interaction
-      - run: composer update --with typo3/minimal:^${{ matrix.typo3 }}
+      - name: Resolve the actual TYPO3 redirects matrix version
+        run: |
+          composer config lock true
+          composer update --with typo3/cms-redirects:^${{ matrix.typo3 }} --no-interaction --no-progress -W
+          composer check-platform-reqs
+          composer audit --abandoned=report
       - run: bash tests/typo3-svg-sanitizer.sh
       - run: ./vendor/bin/grumphp run --ansi --no-interaction
       - run: composer test
