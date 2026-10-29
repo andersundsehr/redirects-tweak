@@ -35,12 +35,8 @@ jobs:
           restore-keys: |
             ${{ matrix.typo3 }}-${{ matrix.php }}-composer-
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Rebuild ignored dependencies before switching TYPO3 versions
-        run: rm -rf vendor composer.lock
       - run: composer require "enshrined/svg-sanitize:~1.0.0" --dev --no-update --sort-packages --no-interaction
-      - name: Resolve the actual TYPO3 redirects matrix version
-        run: |-
-          composer config lock true
-          composer update --with typo3/cms-redirects:^${{ matrix.typo3 }} --no-interaction --no-progress -W
+      - run: composer config lock true
+      - run: composer update --with typo3/cms-redirects:^${{ matrix.typo3 }} --no-interaction --no-progress -W
       - run: ./vendor/bin/grumphp run --ansi --no-interaction
       - run: composer test
