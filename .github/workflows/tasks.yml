@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       max-parallel: 3
       matrix:
-        php: [ '82', '83', '84', '85' ]
+        php: [ '82', '83', '84', '85', '86' ]
         typo3: [ '13', '14' ]
     outputs:
       result: ${{ steps.set-result.outputs.result }}
@@ -31,10 +31,14 @@ jobs:
             ~/.composer/cache/files
             vendor
             node_modules
-          key: ${{ matrix.typo3 }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          # v2: old caches of the TYPO3 13 legs contain TYPO3 14, downgrading it in place fails (typo3/class-alias-loader)
+          key: ${{ matrix.typo3 }}-${{ matrix.php }}-composer-v2-${{ hashFiles('**/composer.json') }}
           restore-keys: |
-            ${{ matrix.typo3 }}-${{ matrix.php }}-composer-
+            ${{ matrix.typo3 }}-${{ matrix.php }}-composer-v2-
       - run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - run: composer update --with typo3/minimal:^${{ matrix.typo3 }} --ignore-platform-req=php+
+      - run: composer update --with typo3/cms-redirects:^${{ matrix.typo3 }} --ignore-platform-req=php+
+      # --ignore-platform-req=php+ may only skip the PHP check of dev dependencies (e.g. phpro/grumphp)
+      - if: matrix.php == '86'
+        run: composer check-platform-reqs --no-dev
       - run: ./vendor/bin/grumphp run --ansi --no-interaction
       - run: composer test
